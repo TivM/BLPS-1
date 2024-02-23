@@ -11,9 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "seller")
+@Table(name = "client")
 @Accessors(chain = true)
-public class Seller {
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,12 +22,17 @@ public class Seller {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    @Column(name = "age", nullable = false)
+    private Integer age;
 
-    @Column(name = "passport")
-    private Integer passport;
+    @Column(name = "address", nullable = false)
+    private String address;
 
-    @OneToMany(mappedBy = "seller")
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "client")
+    private Set<ProductOrder> productOrders = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    private Set<Cart> carts = new HashSet<>();
 }
+
+
