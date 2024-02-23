@@ -20,13 +20,13 @@ public class ProductOrder {
     private Integer id;
 
     @Column(name = "pickup_point_address", nullable = false)
-    private String pickup_point_address;
+    private String pickupPointAddress;
 
     @Column(name = "delivery_time", nullable = false)
-    private Integer delivery_time;
+    private Integer deliveryTime;
 
     @Column(name = "cost_of_delivery", nullable = false)
-    private Integer cost_of_delivery;
+    private Integer costOfDelivery;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
