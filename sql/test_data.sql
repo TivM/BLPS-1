@@ -5,3 +5,9 @@ insert into seller (name, email, passport) values
 insert into client (name, age, address) values
     ('Виноградов Глеб Дмитриевич', 69, 'Белорусская, 6'),
     ('Трофимченко Владислав Михайлович', 228, 'Вяземский переулок');
+
+insert into product(name, count, price, category, size, seller_id) values
+    ('car', 3, 1200, 'car', 120, 1);
+
+insert into cart(product_id, client_id, count) values
+    (1, 1, 2);

@@ -34,4 +34,9 @@ public class ProductOrder {
 
     @OneToMany(mappedBy = "productOrder")
     private Set<OrderedItem> orderedItems = new HashSet<>();
+
+    public void addOrderedItem(OrderedItem orderedItem){
+        orderedItems.add(orderedItem);
+        orderedItem.setProductOrder(this);
+    }
 }
