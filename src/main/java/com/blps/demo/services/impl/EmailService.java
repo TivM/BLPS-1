@@ -1,4 +1,4 @@
-package com.blps.demo.services;
+package com.blps.demo.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
