@@ -33,12 +33,12 @@ create table if not exists cart(
 create table if not exists product_order(
     id serial primary key,
     pickup_point_address varchar not null,
-    delivery_time varchar,
-    cost_of_delivery varchar,
+    delivery_time int,
+    cost_of_delivery int,
     client_id int not null references client(id)
 );
 
-create table if not exists ordered_items(
+create table if not exists ordered_item(
     id serial primary key,
     product_order_id int not null references product_order(id),
     product_id int not null references product(id),
