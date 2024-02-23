@@ -1,11 +1,13 @@
 package com.blps.demo.services;
 
 import com.blps.demo.entity.OrderedItem;
+import com.blps.demo.entity.Product;
+import com.blps.demo.entity.ProductOrder;
 
 import java.util.List;
 
 public interface OrderedItemService {
-    int add(int order_id, int product_id, String status);
+    OrderedItem add(ProductOrder productOrder, Product product, String status);
 
     List<OrderedItem> getByOrderId(int order_id);
 }

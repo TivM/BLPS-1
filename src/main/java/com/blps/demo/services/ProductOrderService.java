@@ -7,7 +7,7 @@ public interface ProductOrderService {
 
     ProductOrder getByClientId(int clientId);
 
-    int add(String pickupPointAddress, Integer deliveryTime, Integer costOfDelivery, int clientId, int orderedItemsId);
+    ProductOrder add(String pickupPointAddress, int clientId);
 
     void setCostOfDelivery(int orderId, Integer costOfDelivery);
 
