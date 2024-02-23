@@ -43,4 +43,14 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<OrderedItem> orderedItems = new HashSet<>();
+
+    public void addOrderedItem(OrderedItem orderedItem){
+        orderedItems.add(orderedItem);
+        orderedItem.setProduct(this);
+    }
+
+    public void addCart(Cart cart){
+        carts.add(cart);
+        cart.setProduct(this);
+    }
 }

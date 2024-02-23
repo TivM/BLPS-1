@@ -33,6 +33,11 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private Set<Cart> carts = new HashSet<>();
+
+    public void addProductOrder(ProductOrder productOrder){
+        productOrders.add(productOrder);
+        productOrder.setClient(this);
+    }
 }
 
 
