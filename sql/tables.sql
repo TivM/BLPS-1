@@ -40,8 +40,17 @@ create table if not exists product_order(
 
 create table if not exists ordered_item(
     id serial primary key,
+    count int not null,
     product_order_id int not null references product_order(id),
     product_id int not null references product(id),
     status varchar not null
+);
+
+create table if not exists payment(
+    id serial primary key,
+    receive int not null,
+    change int not null,
+    processor varchar not null,
+    product_order_id int not null references product_order(id)
 );
 

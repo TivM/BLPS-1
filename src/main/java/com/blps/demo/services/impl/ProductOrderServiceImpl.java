@@ -21,7 +21,6 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     private final ClientRepository clientRepository;
     private final ProductOrderRepository productOrderRepository;
-    private final CartRepository cartRepository;
     private final MapAddressToDeliveryCostAndTime mapAddressToDeliveryCostAndTime;
 
 

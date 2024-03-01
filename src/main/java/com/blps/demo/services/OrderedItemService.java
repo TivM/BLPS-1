@@ -7,7 +7,7 @@ import com.blps.demo.entity.ProductOrder;
 import java.util.List;
 
 public interface OrderedItemService {
-    OrderedItem add(ProductOrder productOrder, Product product, String status);
+    OrderedItem add(ProductOrder productOrder, Product product, String status, int count);
 
     List<OrderedItem> getByOrderId(int order_id);
 }

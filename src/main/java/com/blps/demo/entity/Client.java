@@ -38,6 +38,11 @@ public class Client {
         productOrders.add(productOrder);
         productOrder.setClient(this);
     }
+
+    public void addCart(Cart cart){
+        carts.add(cart);
+        cart.setClient(this);
+    }
 }
 
 

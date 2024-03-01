@@ -15,12 +15,12 @@ public class Cart {
     @EmbeddedId
     private CartId cartId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("clientId")
     @JoinColumn(name = "client_id")
     private Client client;

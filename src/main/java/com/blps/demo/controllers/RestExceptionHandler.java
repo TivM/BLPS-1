@@ -20,10 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         "Something not found or doesn't exist",
                         "0",
                         "Resource not found",
-                        ex.getMessage(),
-                        Arrays.stream(ex.getStackTrace())
-                                .map(StackTraceElement::toString)
-                                .toList()
+                        ex.getMessage()
                 ),
                 HttpStatus.BAD_REQUEST
         );

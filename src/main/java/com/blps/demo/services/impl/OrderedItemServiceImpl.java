@@ -18,16 +18,18 @@ public class OrderedItemServiceImpl implements OrderedItemService {
 
     private final OrderedItemRepository orderedItemRepository;
     @Override
-    public OrderedItem add(ProductOrder productOrder, Product product, String status) {
+    public OrderedItem add(ProductOrder productOrder, Product product, String status, int count) {
 
         OrderedItem orderedItem = new OrderedItem()
                 .setStatus(status)
                 .setProductOrder(productOrder)
-                .setProduct(product);
+                .setProduct(product)
+                .setCount(count);
 
-        orderedItemRepository.save(orderedItem);
+        productOrder.addOrderedItem(orderedItem);
+        product.addOrderedItem(orderedItem);
 
-        return orderedItem;
+        return orderedItemRepository.save(orderedItem);
     }
 
     @Override

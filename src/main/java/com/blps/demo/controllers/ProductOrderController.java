@@ -1,8 +1,5 @@
 package com.blps.demo.controllers;
 
-import com.blps.demo.entity.Cart;
-import com.blps.demo.entity.OrderedItem;
-import com.blps.demo.entity.Product;
 import com.blps.demo.entity.ProductOrder;
 import com.blps.demo.entity.controllers.AddOrderRequest;
 import com.blps.demo.entity.controllers.AddOrderResponse;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +37,7 @@ public class ProductOrderController {
 
         var responseItems = new ArrayList<AddOrderResponseItem>();
         for (var cart: carts) {
-            var orderedItem = orderedItemService.add(order, cart.getProduct(), "initial");
+            var orderedItem = orderedItemService.add(order, cart.getProduct(), "initial", cart.getCount());
             responseItems.add(new AddOrderResponseItem(cart.getProduct().getName(), orderedItem.getStatus()));
         }
         return new AddOrderResponse(

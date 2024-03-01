@@ -26,4 +26,7 @@ public class OrderedItem {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "count", nullable = false)
+    private Integer count;
 }

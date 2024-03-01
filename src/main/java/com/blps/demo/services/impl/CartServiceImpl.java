@@ -1,8 +1,14 @@
 package com.blps.demo.services.impl;
 
 import com.blps.demo.entity.Cart;
+import com.blps.demo.entity.Client;
+import com.blps.demo.entity.OrderedItem;
 import com.blps.demo.entity.Product;
+import com.blps.demo.entity.compositekey.CartId;
+import com.blps.demo.exception.ResourceNotFoundException;
 import com.blps.demo.repository.CartRepository;
+import com.blps.demo.repository.ClientRepository;
+import com.blps.demo.repository.ProductRepository;
 import com.blps.demo.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +21,34 @@ import java.util.Set;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final ClientRepository clientRepository;
     @Override
-    public void add(int productId, int clientId, int count) {
+    public Cart add(int productId, int clientId, int count) {
+        Product productEntity = productRepository.findById(productId).orElseThrow(
+                () -> new ResourceNotFoundException("product not found")
+        );
 
+        Client clientEntity = clientRepository.findById(clientId).orElseThrow(
+                () -> new ResourceNotFoundException("client not found")
+        );
+
+        count = count > productEntity.getCount() ? productEntity.getCount() : count;
+
+        CartId cartId = new CartId()
+                .setClientId(clientEntity.getId())
+                .setProductId(productEntity.getId());
+
+        Cart cart = new Cart()
+                .setCartId(cartId)
+                .setProduct(productEntity)
+                .setClient(clientEntity)
+                .setCount(count);
+
+        productEntity.addCart(cart);
+        clientEntity.addCart(cart);
+
+        return cartRepository.save(cart);
     }
 
     @Override

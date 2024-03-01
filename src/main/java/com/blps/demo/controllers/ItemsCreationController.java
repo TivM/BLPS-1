@@ -36,6 +36,7 @@ public class ItemsCreationController {
         for (var item : items) {
             productService.add(item.name(), item.count(), item.price(), item.category(), item.size(), seller);
         }
+        //TODO items.count???
         return new AddItemsResponse(items.size(), "OK", 0);
     }
 
