@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderedItemRepository extends JpaRepository<OrderedItem, Integer> {
+    void setStatusById(int id, String status);
 }
