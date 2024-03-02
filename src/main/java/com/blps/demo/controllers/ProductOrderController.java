@@ -21,7 +21,7 @@ public class ProductOrderController {
     private final OrderedItemService orderedItemService;
     private final CartService cartService;
 
-    @PostMapping("/order")
+    @PostMapping("/orders")
     public AddOrderResponse addOrder(@RequestBody AddOrderRequest addOrderRequest){
         var carts = cartService.getByClientId(addOrderRequest.clientId());
 
@@ -42,7 +42,7 @@ public class ProductOrderController {
 
     }
 
-    @PostMapping("/order/{id}/status")
+    @PostMapping("/orders/{id}/status")
     public ChangeProductOrderStatusResponse changeProductStatus(@PathVariable int id, @RequestBody ChangeProductOrderStatusRequest changeProductOrderStatusRequest){
         var productOrder = productOrderService.getById(id);
 
@@ -63,6 +63,19 @@ public class ProductOrderController {
             }
         }
         return new ChangeProductOrderStatusResponse(resultItems);
+    }
+
+    @GetMapping("/orders/{id}")
+    public GetOrderResponse getOrderResponse(@PathVariable Integer id) {
+        var productOrder = productOrderService.getById(id);
+
+        if (productOrder == null) {
+           throw new ResourceNotFoundException("Заказа с заданным номером не существует");
+        }
+        var allItemsFromOrder = new HashSet<>(orderedItemService.getByOrderId(productOrder.getId()));
+        return new GetOrderResponse(productOrder.getId(),
+                productOrder.getClient().getId(),
+                allItemsFromOrder.stream().map(product -> new ItemWithStatus(product.getId(), product.getStatus())).toList());
     }
 
 }

@@ -44,4 +44,9 @@ public class PaymentServiceImpl implements PaymentService {
 
         return paymentRepository.save(payment);
     }
+
+    @Override
+    public Payment getPayment(int productOrderId) {
+        return paymentRepository.findByProductOrderId(productOrderId);
+    }
 }

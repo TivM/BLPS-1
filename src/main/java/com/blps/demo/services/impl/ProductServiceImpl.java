@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public int add(String name, int count, int price, String category, int size, Seller seller) {
+    public int add(String name, int count, int price, String category, Integer size, Seller seller) {
         var entity = new Product();
         entity.setName(name);
         entity.setCount(count);

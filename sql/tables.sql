@@ -11,7 +11,7 @@ create table if not exists product (
     count int not null,
     price int not null,
     category varchar not null,
-    size int not null,
+    size int,
     seller_id int not null references seller(id)
 );
 
