@@ -34,10 +34,10 @@ public class ProductOrderController {
         var responseItems = new ArrayList<AddOrderResponseItem>();
         for (var cart: carts) {
             var orderedItem = orderedItemService.add(order, cart.getProduct(), "initial", cart.getCount());
-            responseItems.add(new AddOrderResponseItem(cart.getProduct().getName(), orderedItem.getStatus()));
+            responseItems.add(new AddOrderResponseItem(cart.getProduct().getId(), cart.getProduct().getName(), orderedItem.getStatus()));
         }
         return new AddOrderResponse(
-                responseItems, order.getDeliveryTime(), order.getCostOfDelivery(), "cash"
+                order.getId(), responseItems, order.getDeliveryTime(), order.getCostOfDelivery(), "cash"
         );
 
     }

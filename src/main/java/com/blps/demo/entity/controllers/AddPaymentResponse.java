@@ -1,4 +1,4 @@
 package com.blps.demo.entity.controllers;
 
-public record AddPaymentResponse (int receive, int change, String processor){
+public record AddPaymentResponse (Integer id, int receive, int change, String processor){
 }

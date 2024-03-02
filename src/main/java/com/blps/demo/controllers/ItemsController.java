@@ -57,6 +57,6 @@ public class ItemsController {
     }
 
     private Item convertProductToItem(Product product) {
-        return new Item(product.getName(), product.getCount(), product.getPrice(), product.getCategory(), product.getSize());
+        return new Item(product.getId(), product.getName(), product.getCount(), product.getPrice(), product.getCategory(), product.getSize());
     }
 }

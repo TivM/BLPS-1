@@ -1,4 +1,4 @@
 package com.blps.demo.entity.controllers;
 
-public record AddOrderResponseItem(String name, String status) {
+public record AddOrderResponseItem(Integer id, String name, String status) {
 }

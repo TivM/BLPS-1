@@ -19,7 +19,7 @@ public class PaymentController {
         Payment payment = paymentService.addPayment(addPaymentRequest.receive(),
                         addPaymentRequest.processor(),
                         addPaymentRequest.productOrderId());
-        return new AddPaymentResponse(payment.getReceive(), payment.getChange(), payment.getProcessor());
+        return new AddPaymentResponse(payment.getId(), payment.getReceive(), payment.getChange(), payment.getProcessor());
     }
 
     @GetMapping("/orders/{orderId}/payment")
