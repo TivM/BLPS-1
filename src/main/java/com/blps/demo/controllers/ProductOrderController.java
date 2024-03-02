@@ -62,7 +62,6 @@ public class ProductOrderController {
                 var orderedItem = allItemsFromOrder.stream().filter(itm -> itm.getProduct().getId().equals(item.id())).findFirst().get();
                 orderedItem.setStatus(item.status());
                 orderedItemService.update(orderedItem);
-                //var orderedItem = orderedItemService.setStatus(allItemsFromOrder.stream().filter(itm -> itm.getProduct().getId().equals(item.id())).findFirst().get().getId(), item.status());
                 resultItems.add(new ItemWithStatus(orderedItem.getProduct().getId(), orderedItem.getStatus()));
             }
         }
