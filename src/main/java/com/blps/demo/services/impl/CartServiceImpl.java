@@ -55,4 +55,25 @@ public class CartServiceImpl implements CartService {
     public List<Cart> getByClientId(int clientId) {
         return cartRepository.findByClientId(clientId);
     }
+
+    @Override
+    public void deleteByProductIdAndClientId(int productId, int clientId, int count) {
+        Cart cart = cartRepository.findByProductIdAndClientId(productId, clientId).orElseThrow(
+                () -> new ResourceNotFoundException("client doesn't have product in the cart")
+        );
+        int countProducts = cart.getCount();
+
+        CartId cartId = new CartId()
+                .setProductId(cart.getProduct().getId())
+                .setClientId(cart.getClient().getId());
+
+        if (countProducts <= count){
+            cartRepository.deleteByCartId(cartId);
+        }
+        else{
+            int countToSave = countProducts - count;
+            cart.setCount(countToSave);
+            cartRepository.save(cart);
+        }
+    }
 }
