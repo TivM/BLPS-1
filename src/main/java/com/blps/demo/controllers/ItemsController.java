@@ -4,6 +4,7 @@ import com.blps.demo.entity.Product;
 import com.blps.demo.entity.controllers.*;
 import com.blps.demo.services.ProductService;
 import com.blps.demo.services.SellerService;
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ItemsCreationController {
+public class ItemsController {
 
     @Autowired
     private ProductService productService;
@@ -33,11 +34,19 @@ public class ItemsCreationController {
 
 
         var items = addItemsRequest.items();
+        var count = 0;
         for (var item : items) {
-            productService.add(item.name(), item.count(), item.price(), item.category(), item.size(), seller);
+            try {
+                productService.add(item.name(), item.count(), item.price(), item.category(), item.size(), seller);
+                count += 1;
+            } catch (Exception e) {}
         }
 
-        return new AddItemsResponse(items.size(), "OK", 0);
+        if (count == items.size()) {
+            return new AddItemsResponse(count, "OK", 0);
+        } else {
+            return new AddItemsResponse(count, "Не все товары были добавлены из-за некорректных полей", 0);
+        }
     }
 
     @PostMapping(value = "/items/filter")

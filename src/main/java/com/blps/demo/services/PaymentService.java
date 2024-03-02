@@ -5,4 +5,6 @@ import com.blps.demo.entity.ProductOrder;
 
 public interface PaymentService {
     Payment addPayment(int receive, String processor, int productOrderId);
+
+    Payment getPayment(int productOrderId);
 }

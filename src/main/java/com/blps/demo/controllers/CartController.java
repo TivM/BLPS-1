@@ -5,6 +5,9 @@ import com.blps.demo.entity.controllers.*;
 import com.blps.demo.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +17,13 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    @PostMapping("/cart")
+    @PostMapping("/carts")
     public AddCartResponse addCart(@RequestBody AddCartRequest addCartRequest){
         Cart cart = cartService.add(addCartRequest.productId(), addCartRequest.clientId(), addCartRequest.count());
         return new AddCartResponse(cart.getProduct().getId(), cart.getCount());
     }
 
-    @GetMapping("/cart/{clientId}")
+    @GetMapping("/carts/{clientId}")
     public ListGetCartResponse getCartByClientId(@PathVariable int clientId){
         var carts = cartService.getByClientId(clientId);
         var listCartResponses = new ArrayList<GetCartResponse>();
@@ -32,7 +35,7 @@ public class CartController {
         return new ListGetCartResponse(listCartResponses);
     }
 
-    @DeleteMapping("/cart/{productId}/{clientId}/{count}")
+    @DeleteMapping("/carts/{productId}/{clientId}/{count}")
     public void getCartByClientId(
             @PathVariable int productId,
             @PathVariable int clientId,

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ProductService {
-    int add(String name, int count, int price, String category, int size, Seller seller);
+    int add(String name, int count, int price, String category, Integer size, Seller seller);
 
     List<Product> filter(FindItemsRequest findItemsRequest);
 }
