@@ -1,20 +1,19 @@
 package com.blps.demo.controllers;
 
+import com.blps.demo.entity.OrderedItem;
+import com.blps.demo.entity.Product;
 import com.blps.demo.entity.ProductOrder;
-import com.blps.demo.entity.controllers.AddOrderRequest;
-import com.blps.demo.entity.controllers.AddOrderResponse;
-import com.blps.demo.entity.controllers.AddOrderResponseItem;
+import com.blps.demo.entity.controllers.*;
 import com.blps.demo.exception.ResourceNotFoundException;
 import com.blps.demo.services.CartService;
 import com.blps.demo.services.OrderedItemService;
 import com.blps.demo.services.ProductOrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,4 +44,29 @@ public class ProductOrderController {
         );
 
     }
+
+    @PostMapping("{id}/status")
+    public ChangeProductOrderStatusResponse changeProductStatus(@PathVariable int id, @RequestBody ChangeProductOrderStatusRequest changeProductOrderStatusRequest){
+        var productOrder = productOrderService.getById(id);
+
+        if (productOrder == null) {
+            throw new ResourceNotFoundException("Заказ с данным номером не существует");
+        }
+
+        var allItemsFromOrder = new HashSet<>(orderedItemService.getByOrderId(productOrder.getId()));
+        var existingIds = allItemsFromOrder.stream().map(item -> item.getProduct().getId()).collect(Collectors.toSet());
+        var resultItems = new ArrayList<ItemWithStatus>();
+
+        for (var item : changeProductOrderStatusRequest.items()) {
+            if (existingIds.contains(item.id())) {
+                var orderedItem = allItemsFromOrder.stream().filter(itm -> itm.getProduct().getId().equals(item.id())).findFirst().get();
+                orderedItem.setStatus(item.status());
+                orderedItemService.update(orderedItem);
+                //var orderedItem = orderedItemService.setStatus(allItemsFromOrder.stream().filter(itm -> itm.getProduct().getId().equals(item.id())).findFirst().get().getId(), item.status());
+                resultItems.add(new ItemWithStatus(orderedItem.getProduct().getId(), orderedItem.getStatus()));
+            }
+        }
+        return new ChangeProductOrderStatusResponse(resultItems);
+    }
+
 }

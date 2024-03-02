@@ -33,7 +33,19 @@ public class OrderedItemServiceImpl implements OrderedItemService {
     }
 
     @Override
-    public List<OrderedItem> getByOrderId(int order_id) {
-        return null;
+    public List<OrderedItem> getByOrderId(int orderId) {
+        return orderedItemRepository.findByProductOrderId(orderId);
+    }
+
+    @Override
+    public OrderedItem setStatus(int id, String status) {
+        orderedItemRepository.setStatusById(id, status);
+        var orderedItem = orderedItemRepository.findById(id).get();
+        return orderedItem;
+    }
+
+    @Override
+    public OrderedItem update(OrderedItem orderedItem) {
+        return orderedItemRepository.save(orderedItem);
     }
 }

@@ -10,4 +10,8 @@ public interface OrderedItemService {
     OrderedItem add(ProductOrder productOrder, Product product, String status, int count);
 
     List<OrderedItem> getByOrderId(int order_id);
+
+    OrderedItem setStatus(int id, String status);
+
+    OrderedItem update(OrderedItem orderedItem);
 }
