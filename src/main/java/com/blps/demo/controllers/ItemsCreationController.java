@@ -19,7 +19,7 @@ public class ItemsCreationController {
     @Autowired
     private SellerService sellerService;
 
-    @PostMapping(value = "/items/add")
+    @PostMapping(value = "/items")
     public @ResponseBody AddItemsResponse addItems(@RequestBody AddItemsRequest addItemsRequest) {
         var seller = addItemsRequest.sellerId() != null
                 ? sellerService.getById(addItemsRequest.sellerId())
@@ -36,11 +36,11 @@ public class ItemsCreationController {
         for (var item : items) {
             productService.add(item.name(), item.count(), item.price(), item.category(), item.size(), seller);
         }
-        //TODO items.count???
+
         return new AddItemsResponse(items.size(), "OK", 0);
     }
 
-    @PostMapping(value = "/items")
+    @PostMapping(value = "/items/filter")
     public @ResponseBody FindItemsResponse findItems(@RequestBody FindItemsRequest findItemsRequest) {
         var products = productService.filter(findItemsRequest);
         var items = products.stream().map(this::convertProductToItem).toList();

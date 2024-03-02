@@ -1,7 +1,5 @@
 package com.blps.demo.controllers;
 
-import com.blps.demo.entity.OrderedItem;
-import com.blps.demo.entity.Product;
 import com.blps.demo.entity.ProductOrder;
 import com.blps.demo.entity.controllers.*;
 import com.blps.demo.exception.ResourceNotFoundException;
@@ -17,14 +15,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("order")
 public class ProductOrderController {
 
     private final ProductOrderService productOrderService;
     private final OrderedItemService orderedItemService;
     private final CartService cartService;
 
-    @PostMapping("/add")
+    @PostMapping("/order")
     public AddOrderResponse addOrder(@RequestBody AddOrderRequest addOrderRequest){
         var carts = cartService.getByClientId(addOrderRequest.clientId());
 
@@ -45,7 +42,7 @@ public class ProductOrderController {
 
     }
 
-    @PostMapping("{id}/status")
+    @PostMapping("/order/{id}/status")
     public ChangeProductOrderStatusResponse changeProductStatus(@PathVariable int id, @RequestBody ChangeProductOrderStatusRequest changeProductOrderStatusRequest){
         var productOrder = productOrderService.getById(id);
 

@@ -13,11 +13,10 @@ import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("cart")
 public class CartController {
 
     private final CartService cartService;
-    @PostMapping("/add")
+    @PostMapping("/cart")
     public AddCartResponse addCart(@RequestBody AddCartRequest addCartRequest){
         Cart cart = cartService.add(addCartRequest.productId(), addCartRequest.clientId(), addCartRequest.count());
         return new AddCartResponse(cart.getProduct().getId(), cart.getCount());
