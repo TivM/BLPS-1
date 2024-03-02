@@ -26,7 +26,8 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     @Override
     public ProductOrder getById(int orderId) {
-        return null;
+        var order = productOrderRepository.findById(orderId);
+        return order.orElse(null);
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface OrderedItemService {
     List<OrderedItem> getByOrderId(int order_id);
 
     OrderedItem setStatus(int id, String status);
+
+    OrderedItem update(OrderedItem orderedItem);
 }
