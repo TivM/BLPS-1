@@ -2,14 +2,13 @@ package com.blps.demo.services.impl;
 
 import com.blps.demo.entity.Product;
 import com.blps.demo.entity.Seller;
-import com.blps.demo.entity.controllers.FindItemsRequest;
+import com.blps.demo.entity.controllers.item.FindItemsRequest;
 import com.blps.demo.repository.ProductRepository;
 import com.blps.demo.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

@@ -30,7 +30,6 @@ public class PaymentServiceImpl implements PaymentService {
         }
         cost += productOrder.getCostOfDelivery();
         int change = receive - cost;
-        System.out.println(change);
         if (change < 0){
             throw new ResourceNotFoundException("client doesn't have enough money");
         }

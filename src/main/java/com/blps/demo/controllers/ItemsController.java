@@ -1,10 +1,9 @@
 package com.blps.demo.controllers;
 
 import com.blps.demo.entity.Product;
-import com.blps.demo.entity.controllers.*;
+import com.blps.demo.entity.controllers.item.*;
 import com.blps.demo.services.ProductService;
 import com.blps.demo.services.SellerService;
-import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

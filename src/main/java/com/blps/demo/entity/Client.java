@@ -1,5 +1,6 @@
 package com.blps.demo.entity;
 
+import com.blps.demo.user.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,9 @@ public class Client {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @Column(name = "age", nullable = false)
     private Integer age;

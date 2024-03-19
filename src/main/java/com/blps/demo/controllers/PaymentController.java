@@ -1,9 +1,9 @@
 package com.blps.demo.controllers;
 
 import com.blps.demo.entity.Payment;
-import com.blps.demo.entity.controllers.AddPaymentRequest;
-import com.blps.demo.entity.controllers.AddPaymentResponse;
-import com.blps.demo.entity.controllers.GetPaymentResponse;
+import com.blps.demo.entity.controllers.payment.AddPaymentRequest;
+import com.blps.demo.entity.controllers.payment.AddPaymentResponse;
+import com.blps.demo.entity.controllers.payment.GetPaymentResponse;
 import com.blps.demo.exception.ResourceNotFoundException;
 import com.blps.demo.services.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class PaymentController {
         return new AddPaymentResponse(payment.getId(), payment.getReceive(), payment.getChange(), payment.getProcessor());
     }
 
-    @GetMapping("/orders/{orderId}/payment")
+    @GetMapping("/orders/payment/{orderId}")
     public GetPaymentResponse getPayment(@PathVariable Integer orderId){
         var payment = paymentService.getPayment(orderId);
         if (payment == null) {

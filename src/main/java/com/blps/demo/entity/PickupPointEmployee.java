@@ -9,15 +9,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "seller")
 @Accessors(chain = true)
-public class Seller{
+public class PickupPointEmployee{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,8 +29,5 @@ public class Seller{
 
     @Column(name = "passport")
     private Integer passport;
-
-    @OneToMany(mappedBy = "seller")
-    private Set<Product> products = new HashSet<>();
-
 }
+
