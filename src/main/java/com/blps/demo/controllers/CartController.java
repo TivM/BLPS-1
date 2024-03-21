@@ -1,7 +1,10 @@
 package com.blps.demo.controllers;
 
 import com.blps.demo.entity.Cart;
-import com.blps.demo.entity.controllers.*;
+import com.blps.demo.entity.controllers.cart.AddCartRequest;
+import com.blps.demo.entity.controllers.cart.AddCartResponse;
+import com.blps.demo.entity.controllers.cart.GetCartResponse;
+import com.blps.demo.entity.controllers.cart.ListGetCartResponse;
 import com.blps.demo.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,11 +37,11 @@ public class CartController {
         return new ListGetCartResponse(listCartResponses);
     }
 
-    @DeleteMapping("/carts/{productId}/{clientId}/{count}")
+    @DeleteMapping("/carts")
     public void getCartByClientId(
-            @PathVariable int productId,
-            @PathVariable int clientId,
-            @PathVariable int count
+            @RequestParam(name = "productId") int productId,
+            @RequestParam(name = "clientId") int clientId,
+            @RequestParam(name = "count") int count
     ){
         cartService.deleteByProductIdAndClientId(productId, clientId, count);
     }

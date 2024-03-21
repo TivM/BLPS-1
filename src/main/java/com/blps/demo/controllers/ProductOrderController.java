@@ -1,12 +1,14 @@
 package com.blps.demo.controllers;
 
 import com.blps.demo.entity.ProductOrder;
-import com.blps.demo.entity.controllers.*;
+import com.blps.demo.entity.controllers.item.ItemWithStatus;
+import com.blps.demo.entity.controllers.order.*;
 import com.blps.demo.exception.ResourceNotFoundException;
 import com.blps.demo.services.CartService;
 import com.blps.demo.services.OrderedItemService;
 import com.blps.demo.services.ProductOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class ProductOrderController {
     }
 
     @GetMapping("/orders/{id}")
+    @PreAuthorize("hasAnyRole('CLIENT', 'PICKUP_POINT_EMPLOYEE')")
     public GetOrderResponse getOrderResponse(@PathVariable Integer id) {
         var productOrder = productOrderService.getById(id);
 
