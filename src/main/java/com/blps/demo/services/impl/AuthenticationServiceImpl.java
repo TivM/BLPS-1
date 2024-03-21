@@ -5,6 +5,7 @@ import com.blps.demo.entity.PickupPointEmployee;
 import com.blps.demo.entity.Seller;
 import com.blps.demo.entity.User;
 import com.blps.demo.entity.controllers.auth.*;
+import com.blps.demo.exception.ResourceNotFoundException;
 import com.blps.demo.repository.ClientRepository;
 import com.blps.demo.repository.PickupPointEmployeeRepository;
 import com.blps.demo.repository.SellerRepository;
@@ -17,6 +18,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
+    @Transactional
     public AuthenticationResponse clientRegister(ClientRegisterRequest request) {
         var user = new User()
                 .setEmail(request.email())
@@ -44,13 +48,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .setAddress(request.address());
 
         userRepository.save(user);
-        clientRepository.save(client);
+        client = clientRepository.save(client);
 
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(client.getId(), jwtToken);
     }
 
     @Override
+    @Transactional
     public AuthenticationResponse sellerRegister(SellerRegisterRequest request) {
         var user = new User()
                 .setEmail(request.email())
@@ -63,13 +68,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .setPassport(request.passport());
 
         userRepository.save(user);
-        sellerRepository.save(seller);
+        seller = sellerRepository.save(seller);
 
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(seller.getId(), jwtToken);
     }
 
     @Override
+    @Transactional
     public AuthenticationResponse pickupPointEmployeeRegister(PickupPointEmployeeRequest request) {
         var user = new User()
                 .setEmail(request.email())
@@ -82,13 +88,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .setPassport(request.passport());
 
         userRepository.save(user);
-        pickupPointEmployeeRepository.save(pickupPointEmployee);
+        pickupPointEmployee = pickupPointEmployeeRepository.save(pickupPointEmployee);
 
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(pickupPointEmployee.getId(), jwtToken);
     }
 
     @Override
+    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -96,9 +103,37 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.password()
                 )
         );
+
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
+
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        Integer id = getIdAfterAuthenticate(user);
+
+        return new AuthenticationResponse(id, jwtToken);
+    }
+
+    private Integer getIdAfterAuthenticate(User user){
+        switch (user.getRole()){
+            case CLIENT -> {
+                Client client = clientRepository.findByEmail(user.getEmail()).orElseThrow(
+                        () -> new ResourceNotFoundException("Can't find client in client table")
+                );
+                return client.getId();
+            }
+            case SELLER -> {
+                Seller seller = sellerRepository.findByEmail(user.getEmail()).orElseThrow(
+                        () -> new ResourceNotFoundException("Can't find seller in seller table")
+                );
+                return seller.getId();
+            }
+            case PICKUP_POINT_EMPLOYEE -> {
+                PickupPointEmployee employee = pickupPointEmployeeRepository.findByEmail(user.getEmail()).orElseThrow(
+                        () -> new ResourceNotFoundException("Can't find employee in pickup_point_employee table")
+                );
+                return employee.getId();
+            }
+            default -> throw new ResourceNotFoundException("Role doesn't exist");
+        }
     }
 }

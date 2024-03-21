@@ -2,7 +2,6 @@ package com.blps.demo.services.impl;
 
 import com.blps.demo.entity.Cart;
 import com.blps.demo.entity.Client;
-import com.blps.demo.entity.OrderedItem;
 import com.blps.demo.entity.Product;
 import com.blps.demo.entity.compositekey.CartId;
 import com.blps.demo.exception.ResourceNotFoundException;
@@ -13,8 +12,8 @@ import com.blps.demo.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +23,7 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
     @Override
+    @Transactional
     public Cart add(int productId, int clientId, int count) {
         Product productEntity = productRepository.findById(productId).orElseThrow(
                 () -> new ResourceNotFoundException("product not found")
@@ -57,6 +57,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void deleteByProductIdAndClientId(int productId, int clientId, int count) {
         Cart cart = cartRepository.findByProductIdAndClientId(productId, clientId).orElseThrow(
                 () -> new ResourceNotFoundException("client doesn't have product in the cart")

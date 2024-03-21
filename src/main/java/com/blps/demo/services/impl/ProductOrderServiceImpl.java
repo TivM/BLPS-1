@@ -1,18 +1,16 @@
 package com.blps.demo.services.impl;
 
-import com.blps.demo.entity.Cart;
 import com.blps.demo.entity.Client;
 import com.blps.demo.entity.ProductOrder;
 import com.blps.demo.exception.ResourceNotFoundException;
-import com.blps.demo.repository.CartRepository;
 import com.blps.demo.repository.ClientRepository;
 import com.blps.demo.repository.ProductOrderRepository;
 import com.blps.demo.services.ProductOrderService;
 import com.blps.demo.services.utils.MapAddressToDeliveryCostAndTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
